@@ -14,8 +14,11 @@ import utils from '../utils';
 
 const PREFIX = '@media';
 
+let windowFn = null;
+
 export default {
-  process
+  process,
+  setWindowFn
 };
 
 /**
@@ -64,7 +67,7 @@ function process(obj) {
  * @returns {Object}
  */
 function getMatchObject() {
-  const win = Dimensions.get('window');
+  const win = getWindow();
   return {
     width: win.width,
     height: win.height,
@@ -72,6 +75,24 @@ function getMatchObject() {
     'aspect-ratio': win.width / win.height,
     type: Platform.OS,
   };
+}
+
+/**
+ * Returns window object from custom function or fails over to Dimensions
+ * @returns {Object}
+ */
+function getWindow() {
+  if (windowFn)
+    return windowFn();
+
+  return Dimensions.get('window');
+}
+
+/**
+ * Sets a custom window dimensions function
+ */
+function setWindowFn(newWindowFn) {
+  windowFn = newWindowFn;
 }
 
 /**

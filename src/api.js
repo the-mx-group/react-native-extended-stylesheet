@@ -8,6 +8,7 @@ import Value from './value';
 import vars from './replacers/vars';
 import memoize from './memoize';
 import child from './child';
+import mediaQueries from './replacers/media-queries';
 
 const BUILD_EVENT = 'build';
 
@@ -80,6 +81,13 @@ export default class {
       this.listeners[BUILD_EVENT] = this.listeners[BUILD_EVENT] || [];
       this.listeners[BUILD_EVENT].push(listener);
     }
+  }
+
+  /**
+   * Sets a custom function to retrieve window info for media queries
+   */
+  setWindowFn(windowFn) {
+    mediaQueries.setWindowFn(windowFn);
   }
 
   _calcVars(gVars) {
